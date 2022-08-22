@@ -71,7 +71,7 @@ const Header = () => {
               edge="end"
               onClick={handleDrawerOpen}
             >
-              <MenuIcon style={{ fontSize: "25px" }} />
+              <MenuIcon style={{ fontSize: "25px" }} className="nav-button" />
             </IconButton>
           </div>
         </div>

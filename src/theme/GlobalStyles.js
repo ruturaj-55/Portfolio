@@ -14,6 +14,10 @@ export const GlobalStyles = createGlobalStyle`
     text-decoration:none
   }
 
+  .nav-button{
+    color: #FFFFFF;
+  }
+
   button {
     border: 0;
     display: inline-block;
