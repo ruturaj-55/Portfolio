@@ -53,7 +53,8 @@ const Header = () => {
   };
 
   useEffect(() => {
-    setThemes(_.keys(data));
+    const temp = getFromLS("Themes");
+    setThemes(_.keys(temp.data));
   }, []);
 
   return (

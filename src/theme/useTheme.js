@@ -28,8 +28,9 @@ export const useTheme = () => {
   };
 
   useEffect(() => {
+    const temp = getFromLS("Themes");
     const localTheme = getFromLS("theme");
-    localTheme ? setTheme(localTheme) : setTheme(themes.data.light);
+    localTheme ? setTheme(localTheme) : setTheme(temp.data.light);
     setThemeLoaded(true);
   }, []);
 

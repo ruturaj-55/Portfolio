@@ -37,7 +37,7 @@ function App() {
         {themeLoaded && (
           <ThemeProvider theme={selectedTheme}>
             <GlobalStyles />
-            {/* <Header /> */}
+            <Header />
             <AppRoutes />
             <Socialicons />
           </ThemeProvider>
