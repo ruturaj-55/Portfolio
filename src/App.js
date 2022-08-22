@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className="App" style={{ fontFamily: selectedTheme.font }}>
-      <Router basename="home">
+      <Router>
         {themeLoaded && (
           <ThemeProvider theme={selectedTheme}>
             <GlobalStyles />
