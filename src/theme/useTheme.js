@@ -9,17 +9,17 @@ import { setToLS, getFromLS } from "../utils/storage";
 import _ from "lodash";
 
 //Gets theme from browser local storage
-const themes = getFromLS("Themes");
+
 //Use theme function for using a particular theme
 export const useTheme = () => {
   //Sets the theme with react hook
-
-  const [theme, setTheme] = useState(themes.data.dark);
+  const themes = getFromLS("Themes");
+  const [theme, setTheme] = useState(themes.data.light);
   const [themeLoaded, setThemeLoaded] = useState(false);
 
   const setMode = (mode) => {
     setToLS("theme", mode);
-    setTheme(() => mode);
+    setTheme(mode);
   };
 
   const getFonts = () => {
@@ -28,12 +28,9 @@ export const useTheme = () => {
   };
 
   useEffect(() => {
-    const loadTheme = () => {
-      const localTheme = getFromLS("theme");
-      localTheme ? setTheme(localTheme) : setTheme(() => themes.data.dark);
-      setThemeLoaded(() => true);
-    };
-    loadTheme();
+    const localTheme = getFromLS("theme");
+    localTheme ? setTheme(localTheme) : setTheme(themes.data.light);
+    setThemeLoaded(true);
   }, []);
 
   return { theme, themeLoaded, setMode, getFonts };

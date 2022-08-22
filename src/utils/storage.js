@@ -14,7 +14,6 @@ export const setToLS = (key, value) => {
 //Function to get value from local storage
 export const getFromLS = (key) => {
   const value = window.localStorage.getItem(key);
-
   if (value) {
     return JSON.parse(value);
   }

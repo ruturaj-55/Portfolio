@@ -32,10 +32,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-start",
 }));
 
-const themesFromStore = getFromLS("Themes");
-const data = themesFromStore.data;
-
 const Header = () => {
+  const themesFromStore = getFromLS("Themes");
+  const data = themesFromStore.data;
   const [open, setOpen] = React.useState(false);
   const [themes, setThemes] = useState([]);
   const { setMode } = useTheme();
@@ -49,7 +48,7 @@ const Header = () => {
   };
 
   const themeSwitcher = (selectedTheme) => {
-    setMode(() => selectedTheme);
+    setMode(selectedTheme);
     window.location.reload();
   };
 

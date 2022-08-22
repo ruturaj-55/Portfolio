@@ -19,10 +19,7 @@ function App() {
   const [selectedTheme, setSelectedTheme] = useState(theme);
 
   useEffect(() => {
-    const setTheme = () => {
-      setSelectedTheme(() => theme);
-    };
-    setTheme();
+    setSelectedTheme(theme);
   }, [theme]);
 
   //Load all the fonts
@@ -40,7 +37,7 @@ function App() {
         {themeLoaded && (
           <ThemeProvider theme={selectedTheme}>
             <GlobalStyles />
-            <Header />
+            {/* <Header /> */}
             <AppRoutes />
             <Socialicons />
           </ThemeProvider>
