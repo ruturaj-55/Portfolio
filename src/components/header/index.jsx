@@ -118,11 +118,7 @@ const Header = () => {
               }
             />
           </ListItemButton>
-          <ListItemButton
-            alignItems="flex-start"
-            href="/home/posts"
-            className="m-2"
-          >
+          <ListItemButton alignItems="flex-start" href="/posts" className="m-2">
             <ListItemAvatar>
               <Avatar alt="Posts" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
@@ -143,11 +139,7 @@ const Header = () => {
               }
             />
           </ListItemButton>
-          <ListItemButton
-            alignItems="flex-start"
-            href="/home/blogs"
-            className="m-2"
-          >
+          <ListItemButton alignItems="flex-start" href="/blogs" className="m-2">
             <ListItemAvatar>
               <Avatar alt="Blogs" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
