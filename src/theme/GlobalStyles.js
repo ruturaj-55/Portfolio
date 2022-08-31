@@ -1,6 +1,16 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
+
+  :root {
+    --bg-color: #0c0c0c;
+    --primary-color: #0d0d0d;
+    --secondary-color: #fff;
+    --text-color: #fff;
+    --text-color-2: #fff;
+    --overlay-color: rgb(12 12 12 / 63%);
+  }
+
   body {
     background: ${({ theme }) => theme.colors.body};
     color: ${({ theme }) => theme.colors.text};

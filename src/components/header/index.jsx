@@ -21,7 +21,7 @@ import { getFromLS } from "../../utils/storage";
 
 import "./style.css";
 
-const drawerWidth = "20%";
+const drawerWidth = 300;
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
