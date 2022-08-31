@@ -98,34 +98,32 @@ const dataportfolio = [
 const PostsPage = () => {
   return (
     <HelmetProvider>
-      <Container className="About-header">
+      <Container className="About-header mt-5">
         <Helmet>
           <meta charSet="utf-8" />
           <title> Posts | Elessar </title>
         </Helmet>
-        <Row className="mb-5 mt-3">
+        <Row className="mb-5">
           <Col lg="8">
-            <h1 className="display-4 mb-4"> Posts </h1>
+            <h2 className="display-4 mb-4  mt-5"> Posts </h2>
             <hr className="t_border my-4 ml-0 text-left" />
           </Col>
         </Row>
 
         {dates.map((date, i) => {
           return (
-            <div key={i}>
-              <Container>
-                <Typography variant="h3" gutterBottom>
-                  {date}
-                </Typography>
-                <div className="mb-5 po_items_ho">
-                  {dataportfolio
-                    .filter((data) => data.date === date)
-                    .map((data, ind) => {
-                      return <PostComponenent data={data} key={ind} />;
-                    })}
-                </div>
-              </Container>
-            </div>
+            <Container key={i}>
+              <Typography variant="h4" gutterBottom className="ms-0 me-auto">
+                {date}
+              </Typography>
+              <div className="mb-5 mt-5 po_items_ho">
+                {dataportfolio
+                  .filter((data) => data.date === date)
+                  .map((data, ind) => {
+                    return <PostComponenent data={data} key={ind} />;
+                  })}
+              </div>
+            </Container>
           );
         })}
       </Container>

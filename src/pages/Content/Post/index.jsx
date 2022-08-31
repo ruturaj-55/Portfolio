@@ -7,21 +7,20 @@ import Typography from "@mui/material/Typography";
 const PostPage = () => {
   return (
     <HelmetProvider>
-      <Container className="About-header">
+      <Container className="About-header mt-5">
         <Helmet>
           <meta charSet="utf-8" />
           <title> Post | Elessar </title>
         </Helmet>
-        <Row className="mb-5 mt-6">
+        <Row className="mb-5 mt-5">
           <Col lg="8">
-            <h1 className="display-4 mb-4"> Post </h1>
+            <h1 className="display-4 mb-4 mt-5"> Post </h1>
             <hr className="t_border my-4 ml-0 text-left" />
           </Col>
         </Row>
         <Carousel>
-          <Carousel.Item style={{ height: "50%" }}>
+          <Carousel.Item>
             <img
-              style={{ height: "50%" }}
               className="d-block w-100"
               src="https://drive.google.com/uc?export=view&id=1Hm9pCaeo9v2ZpTeRVoLBMsY8xLbwbIsE"
               alt="First slide"
@@ -58,7 +57,7 @@ const PostPage = () => {
             </Carousel.Caption>
           </Carousel.Item>
         </Carousel>
-        <Container className="m-5">
+        <Container className="mt-5 mb-5">
           <Typography variant="body1" gutterBottom>
             body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
             Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore
