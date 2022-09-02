@@ -19,7 +19,7 @@ import _ from "lodash";
 import { useTheme } from "../../theme/useTheme";
 import { getFromLS } from "../../utils/storage";
 
-import "./style.css";
+import "./style.scss";
 
 const drawerWidth = 300;
 
@@ -31,6 +31,27 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: "flex-start",
 }));
+
+const navData = [
+  {
+    primary: "Home",
+    secondary: "About Me",
+    description: " — View details about me.",
+    href: "/home",
+  },
+  {
+    primary: "Posts",
+    secondary: "Astronomy Posts",
+    description: " — View latest astronomy shots!",
+    href: "/posts",
+  },
+  {
+    primary: "Blogs",
+    secondary: "Articles",
+    description: " — Read my latest articles about space and astronomy",
+    href: "/blogs",
+  },
+];
 
 const Header = () => {
   const themesFromStore = getFromLS("Themes");
@@ -71,7 +92,7 @@ const Header = () => {
               edge="end"
               onClick={handleDrawerOpen}
             >
-              <MenuIcon style={{ fontSize: "25px" }} className="nav-button" />
+              <MenuIcon style={{ fontSize: "25px" }} />
             </IconButton>
           </div>
         </div>
@@ -83,6 +104,7 @@ const Header = () => {
           flexShrink: 0,
           "& .MuiDrawer-paper": {
             width: drawerWidth,
+            backgroundColor: "#171a1a",
           },
         }}
         variant="persistent"
@@ -95,95 +117,69 @@ const Header = () => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-
         <List className="p-4">
-          <ListItemButton alignItems="flex-start" href="/home" className="m-2">
-            <ListItemAvatar>
-              <Avatar alt="Home" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Home"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    About Me
-                  </Typography>
-                  {" — View details about me."}
-                </React.Fragment>
-              }
-            />
-          </ListItemButton>
-          <ListItemButton alignItems="flex-start" href="/posts" className="m-2">
-            <ListItemAvatar>
-              <Avatar alt="Posts" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Posts"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    Astronomy Posts
-                  </Typography>
-                  {" — View latest astronomy shots!"}
-                </React.Fragment>
-              }
-            />
-          </ListItemButton>
-          <ListItemButton alignItems="flex-start" href="/blogs" className="m-2">
-            <ListItemAvatar>
-              <Avatar alt="Blogs" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Blogs"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    Articles
-                  </Typography>
-                  {" — Read my latest articles about space and astronomy"}
-                </React.Fragment>
-              }
-            />
-          </ListItemButton>
-        </List>
-        <Divider />
-        <Typography variant="h4" gutterBottom className="m-4">
-          Themes
-        </Typography>
-        <List className="p-4">
-          {themes.length > 0 &&
-            themes.map((theme) => (
+          {navData.map((data, ind) => (
+            <div key={ind} className="nav-items mt-4 mb-4">
               <ListItemButton
                 alignItems="flex-start"
-                key={data[theme].id}
-                onClick={() => themeSwitcher(data[theme])}
+                href={data.href}
+                className="m-2"
               >
                 <ListItemAvatar>
                   <Avatar
-                    alt={data[theme].name}
+                    alt={data.primary}
                     src="/static/images/avatar/1.jpg"
                   />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={data[theme].name}
-                  secondary={data[theme].description}
+                  primary={
+                    <Typography variant="body1" className="nav-primary">
+                      {data.primary}
+                    </Typography>
+                  }
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: "inline", fontWeight: "bold" }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        {data.secondary}
+                      </Typography>
+                      {data.description}
+                    </React.Fragment>
+                  }
                 />
               </ListItemButton>
+            </div>
+          ))}
+        </List>
+        <Divider />
+        <Typography variant="h4" gutterBottom className="m-2 text-white">
+          Themes
+        </Typography>
+        <List className="p-4">
+          {themes.length > 0 &&
+            themes.map((theme, ind) => (
+              <div key={ind} className="nav-items mt-4 mb-4">
+                <ListItemButton
+                  alignItems="flex-start"
+                  key={data[theme].id}
+                  onClick={() => themeSwitcher(data[theme])}
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      alt={data[theme].name}
+                      src="/static/images/avatar/1.jpg"
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={data[theme].name}
+                    secondary={data[theme].description}
+                  />
+                </ListItemButton>
+              </div>
             ))}
         </List>
       </Drawer>

@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css";
+import "./style.scss";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Container, Row, Col, Carousel } from "react-bootstrap";
 import Typography from "@mui/material/Typography";

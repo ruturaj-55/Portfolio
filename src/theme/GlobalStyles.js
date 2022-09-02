@@ -24,25 +24,31 @@ export const GlobalStyles = createGlobalStyle`
     text-decoration:none
   }
 
-  .nav-button{
-    color: #FFFFFF;
-  }
-
   button {
-    border: 0;
+    border: 2px solid ${({ theme }) => theme.colors.button.text} !important;
+    color : ${({ theme }) => theme.colors.button.text} !important;
     display: inline-block;
-    padding: 12px 24px;
+    padding: 1em 2em;
     font-size: 14px;
     border-radius: 4px;
-    margin-top: 5px;
+    margin: 0.5em !important;
     cursor: pointer;
     background-color: #1064EA;
     color: #FFFFFF;
     font-family: ${({ theme }) => theme.font};
+    background: none;
+    line-height: 1;
+    font: inherit;      
   }
 
-  button.btn {
-    background-color: ${({ theme }) => theme.colors.button.background};
-    color: ${({ theme }) => theme.colors.button.text};
+  button:hover,
+  button:focus{
+    box-shadow: 0 0.5em 0.5em -0.4em ${({ theme }) =>
+      theme.colors.buttonhover.text};
+    transform: translateY(-0.25em);
+    border: 2px solid ${({ theme }) =>
+      theme.colors.buttonhover.text} !important;
+    color: ${({ theme }) => theme.colors.buttonhover.text} !important;
   }
+  
 `;

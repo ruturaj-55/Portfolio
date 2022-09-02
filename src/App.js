@@ -5,7 +5,7 @@ import WebFont from "webfontloader";
 import { GlobalStyles } from "./theme/GlobalStyles";
 import { useTheme } from "./theme/useTheme";
 
-import "./App.css";
+import "./App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./components/header";
 import { BrowserRouter as Router } from "react-router-dom";
