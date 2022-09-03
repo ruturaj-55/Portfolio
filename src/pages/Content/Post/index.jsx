@@ -1,10 +1,58 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Container, Row, Col, Carousel } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
+
+import { db } from "../../../firebase";
+import { getDoc, doc } from "firebase/firestore";
 
 const PostPage = () => {
+  const params = useParams();
+
+  const [post, setPost] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getPostData = async () => {
+      try {
+        const docRef = doc(db, "Posts", params.id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setPost(docSnap.data());
+          setLoading(false);
+        } else {
+          alert("Error Fetching Document");
+        }
+      } catch (error) {
+        alert(error);
+      }
+    };
+    getPostData();
+  }, [params.id]);
+
+  const getDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const monthName = date.toLocaleString("default", {
+      month: "long",
+    });
+    const day = date.getDate();
+    return day + " " + monthName + " " + year;
+  };
+
+  var images = [];
+  var datePosted;
+  var dateCaptured;
+
+  if (!loading) {
+    images = post.Images;
+    datePosted = getDate(post.PostedOn);
+    dateCaptured = getDate(post.CapturedOn);
+  }
+
   return (
     <HelmetProvider>
       <Container className="About-header mt-5">
@@ -12,59 +60,59 @@ const PostPage = () => {
           <meta charSet="utf-8" />
           <title> Post | Elessar </title>
         </Helmet>
-        <Row className="mb-5 mt-5">
-          <Col lg="8">
-            <h1 className="display-4 mb-4 mt-5"> Post </h1>
-            <hr className="t_border my-4 ml-0 text-left" />
-          </Col>
-        </Row>
-        <Carousel>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src="https://drive.google.com/uc?export=view&id=1Hm9pCaeo9v2ZpTeRVoLBMsY8xLbwbIsE"
-              alt="First slide"
-            />
-            <Carousel.Caption>
-              <h3>First slide label</h3>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src="https://drive.google.com/uc?export=view&id=1Hm9pCaeo9v2ZpTeRVoLBMsY8xLbwbIsE"
-              alt="Second slide"
-            />
 
-            <Carousel.Caption>
-              <h3>Second slide label</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src="https://drive.google.com/uc?export=view&id=1Hm9pCaeo9v2ZpTeRVoLBMsY8xLbwbIsE"
-              alt="Third slide"
-            />
+        {loading ? (
+          <CircularProgress color="success" />
+        ) : (
+          <div>
+            <Row className="mb-5 mt-5">
+              <Col lg="8">
+                <h1 className="display-4 mb-4 mt-5"> Post </h1>
+                <hr className="t_border my-4 ml-0 text-left" />
+              </Col>
+            </Row>
+            <div className="d-flex ">
+              <Typography variant="h6">Posted On : {datePosted}</Typography>
+            </div>
+            <Carousel>
+              {images &&
+                images.map((data, ind) => (
+                  <Carousel.Item key={ind}>
+                    <img
+                      className="d-block w-100"
+                      src={data}
+                      alt="First slide"
+                    />
+                    <Carousel.Caption>
+                      <h4>{post["Name"]}</h4>
+                      <p>{post["About"]}</p>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                ))}
+            </Carousel>
+            <Container className="mt-5 mb-5">
+              <div className="d-flex mt-5 mb-5">
+                <Typography variant="h4">{post.Name}</Typography>
+              </div>
 
-            <Carousel.Caption>
-              <h3>Third slide label</h3>
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-              </p>
-            </Carousel.Caption>
-          </Carousel.Item>
-        </Carousel>
-        <Container className="mt-5 mb-5">
-          <Typography variant="body1" gutterBottom>
-            body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore
-            consectetur, neque doloribus, cupiditate numquam dignissimos laborum
-            fugiat deleniti? Eum quasi quidem quibusdam.
-          </Typography>
-        </Container>
+              <div className="d-flex mt-2 mb-2">
+                <Typography variant="h6">{post.About}</Typography>
+              </div>
+
+              <div className="d-flex mt-5 mb-5">
+                <Typography variant="h6">
+                  Captured On : {dateCaptured}
+                </Typography>
+              </div>
+
+              <div className="d-flex">
+                <Typography variant="body1" gutterBottom>
+                  {post["Description"]}
+                </Typography>
+              </div>
+            </Container>
+          </div>
+        )}
       </Container>
     </HelmetProvider>
   );

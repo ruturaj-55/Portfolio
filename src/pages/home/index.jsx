@@ -49,7 +49,7 @@ const HomePage = () => {
                   <Button variant="outlined" onClick={() => navigate("/blogs")}>
                     Blogs
                   </Button>
-                  <Button variant="outlined" onClick={() => navigate("/blogs")}>
+                  <Button variant="outlined" onClick={null}>
                     Contact Me
                   </Button>
                 </div>

@@ -1,101 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Container, Row, Col } from "react-bootstrap";
 import PostComponenent from "./post/index.jsx";
 import Typography from "@mui/material/Typography";
 
-const dates = ["07-06-2022", "23-06-2022"];
-
-const dataportfolio = [
-  {
-    img: "https://drive.google.com/uc?export=view&id=1Hm9pCaeo9v2ZpTeRVoLBMsY8xLbwbIsE",
-    desctiption:
-      "The wisdom of life consists in the elimination of non-essentials.",
-    link: "#",
-    date: "07-06-2022",
-  },
-  {
-    img: "https://picsum.photos/400/800/?grayscale",
-    desctiption:
-      "The wisdom of life consists in the elimination of non-essentials.",
-    link: "#",
-    date: "07-06-2022",
-  },
-  {
-    img: "https://picsum.photos/400/?grayscale",
-    desctiption:
-      "The wisdom of life consists in the elimination of non-essentials.",
-    link: "#",
-    date: "07-06-2022",
-  },
-  {
-    img: "https://picsum.photos/400/600/?grayscale",
-    desctiption:
-      "The wisdom of life consists in the elimination of non-essentials.",
-    link: "#",
-    date: "07-06-2022",
-  },
-  {
-    img: "https://picsum.photos/400/300/?grayscale",
-    desctiption:
-      "The wisdom of life consists in the elimination of non-essentials.",
-    link: "#",
-    date: "23-06-2022",
-  },
-  {
-    img: "https://picsum.photos/400/700/?grayscale",
-    desctiption:
-      "The wisdom of life consists in the elimination of non-essentials.",
-    link: "#",
-    date: "23-06-2022",
-  },
-
-  {
-    img: "https://picsum.photos/400/600/?grayscale",
-    desctiption:
-      "The wisdom of life consists in the elimination of non-essentials.",
-    link: "#",
-    date: "23-06-2022",
-  },
-  {
-    img: "https://picsum.photos/400/300/?grayscale",
-    desctiption:
-      "The wisdom of life consists in the elimination of non-essentials.",
-    link: "#",
-    date: "23-06-2022",
-  },
-  {
-    img: "https://picsum.photos/400/?grayscale",
-    desctiption:
-      "The wisdom of life consists in the elimination of non-essentials.",
-    link: "#",
-    date: "07-06-2022",
-  },
-  {
-    img: "https://picsum.photos/400/550/?grayscale",
-    desctiption:
-      "The wisdom of life consists in the elimination of non-essentials.",
-    link: "#",
-    date: "07-06-2022",
-  },
-  {
-    img: "https://picsum.photos/400/?grayscale",
-    desctiption:
-      "The wisdom of life consists in the elimination of non-essentials.",
-    link: "#",
-    date: "23-06-2022",
-  },
-  {
-    img: "https://picsum.photos/400/700/?grayscale",
-    desctiption:
-      "The wisdom of life consists in the elimination of non-essentials.",
-    link: "#",
-    date: "07-06-2022",
-  },
-];
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const PostsPage = () => {
+  const [posts, setPosts] = useState([]);
+  var postDates = [];
+
+  useEffect(() => {
+    const q = query(collection(db, "Posts"), orderBy("CapturedOn", "desc"));
+    onSnapshot(q, (querySnapshot) => {
+      setPosts(
+        querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
+    });
+  }, []);
+
+  postDates = posts.map((data) => {
+    const date = new Date(data.data.CapturedOn);
+
+    const year = date.getUTCFullYear();
+
+    const monthName = date.toLocaleString("default", {
+      month: "long",
+    });
+
+    return monthName + " " + year;
+  });
+
   return (
     <HelmetProvider>
       <Container className="About-header mt-5">
@@ -110,22 +50,48 @@ const PostsPage = () => {
           </Col>
         </Row>
 
-        {dates.map((date, i) => {
-          return (
-            <Container key={i}>
-              <Typography variant="h4" gutterBottom className="ms-0 me-auto">
-                {date}
-              </Typography>
-              <div className="mb-5 mt-5 po_items_ho">
-                {dataportfolio
-                  .filter((data) => data.date === date)
-                  .map((data, ind) => {
-                    return <PostComponenent data={data} key={ind} />;
-                  })}
-              </div>
-            </Container>
-          );
-        })}
+        {postDates &&
+          postDates.map((date, i) => {
+            return (
+              <Container key={i}>
+                <div className="d-flex justify-content-start m-4">
+                  <Typography
+                    variant="h4"
+                    gutterBottom
+                    className="ms-0 me-auto"
+                  >
+                    {date}
+                  </Typography>
+                </div>
+                <div className="mb-5 mt-5 po_items_ho">
+                  {posts &&
+                    posts
+                      .filter((data) => {
+                        const captureDate = new Date(data.data.CapturedOn);
+
+                        const year = captureDate.getUTCFullYear();
+
+                        const monthName = captureDate.toLocaleString(
+                          "default",
+                          {
+                            month: "long",
+                          }
+                        );
+                        return monthName + " " + year === date;
+                      })
+                      .map((data, ind) => {
+                        return (
+                          <PostComponenent
+                            data={data.data}
+                            key={ind}
+                            id={data.id}
+                          />
+                        );
+                      })}
+                </div>
+              </Container>
+            );
+          })}
       </Container>
     </HelmetProvider>
   );
