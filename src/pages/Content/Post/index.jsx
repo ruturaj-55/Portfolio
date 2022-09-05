@@ -34,7 +34,7 @@ const PostPage = () => {
   }, [params.id]);
 
   const getDate = (timestamp) => {
-    const date = new Date(timestamp);
+    const date = new Date(timestamp * 1000);
     const year = date.getFullYear();
     const monthName = date.toLocaleString("default", {
       month: "long",
@@ -43,14 +43,27 @@ const PostPage = () => {
     return day + " " + monthName + " " + year;
   };
 
+  const getTime = (timestamp) => {
+    const date = new Date(timestamp * 1000);
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? "pm" : "am";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    return hours + ":" + minutes + " " + ampm;
+  };
+
   var images = [];
   var datePosted;
   var dateCaptured;
+  var timeCaptured;
 
   if (!loading) {
     images = post.Images;
     datePosted = getDate(post.PostedOn);
     dateCaptured = getDate(post.CapturedOn);
+    timeCaptured = getTime(post.CapturedOn);
   }
 
   return (
@@ -71,7 +84,7 @@ const PostPage = () => {
                 <hr className="t_border my-4 ml-0 text-left" />
               </Col>
             </Row>
-            <div className="d-flex ">
+            <div className="d-flex mt-5 mb-5">
               <Typography variant="h6">Posted On : {datePosted}</Typography>
             </div>
             <Carousel>
@@ -81,7 +94,7 @@ const PostPage = () => {
                     <img
                       className="d-block w-100"
                       src={data}
-                      alt="First slide"
+                      alt={post["Name"]}
                     />
                     <Carousel.Caption>
                       <h4>{post["Name"]}</h4>
@@ -100,8 +113,8 @@ const PostPage = () => {
               </div>
 
               <div className="d-flex mt-5 mb-5">
-                <Typography variant="h6">
-                  Captured On : {dateCaptured}
+                <Typography variant="body1">
+                  Captured On : {dateCaptured}, {timeCaptured}
                 </Typography>
               </div>
 
@@ -109,6 +122,25 @@ const PostPage = () => {
                 <Typography variant="body1" gutterBottom>
                   {post["Description"]}
                 </Typography>
+              </div>
+
+              <div className="text-center mt-5 mb-5">
+                <img
+                  className="w-75 img-fluid"
+                  src={post["StudyImage"]}
+                  alt={post["Name"]}
+                />
+              </div>
+
+              <div className="mt-5 mb-5">
+                <h5 style={{ textAlign: "start" }}>References:</h5>
+                <ol style={{ textAlign: "start" }}>
+                  {post["References"].map((data, i) => (
+                    <li className="ms-0" key={i}>
+                      {data}
+                    </li>
+                  ))}
+                </ol>
               </div>
             </Container>
           </div>
