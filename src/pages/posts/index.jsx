@@ -25,7 +25,7 @@ const PostsPage = () => {
   }, []);
 
   postDates = posts.map((data) => {
-    const date = new Date(data.data.CapturedOn);
+    const date = new Date(data.data.CapturedOn * 1000);
 
     const year = date.getUTCFullYear();
 
@@ -67,7 +67,9 @@ const PostsPage = () => {
                   {posts &&
                     posts
                       .filter((data) => {
-                        const captureDate = new Date(data.data.CapturedOn);
+                        const captureDate = new Date(
+                          data.data.CapturedOn * 1000
+                        );
 
                         const year = captureDate.getUTCFullYear();
 
